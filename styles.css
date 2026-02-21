@@ -1011,6 +1011,18 @@ kbd {
     cursor: pointer;
 }
 
+.esteregg{
+    padding: 4px 8px;
+    transition: all 0.15s;
+    text-decoration: none;
+    color: var(--dim);
+}
+
+.esteregg a {
+    color: inherit;
+    text-decoration: none;
+}
+
 #popup-no:hover { color: var(--red); }
 
 /* ── Scrollbar global ── */
