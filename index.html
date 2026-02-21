@@ -22,14 +22,15 @@
         <div class="boot-content">
             <div class="boot-logo">
                 <pre class="ascii-logo">
- ██████╗ ██╗ ██████╗ ███████╗
- ██╔══██╗██║██╔═══██╗██╔════╝
- ██████╔╝██║██║   ██║███████╗
- ██╔══██╗██║██║   ██║╚════██║
- ██████╔╝██║╚██████╔╝███████║
- ╚═════╝ ╚═╝ ╚═════╝ ╚══════╝
+ ██████╗  ██████╗ ██████╗ ████████╗███████╗ ██████╗ ██╗     ██╗ ██████╗ 
+ ██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝██╔═══██╗██║     ██║██╔═══██╗
+ ██████╔╝██║   ██║██████╔╝   ██║   █████╗  ██║   ██║██║     ██║██║   ██║
+ ██╔═══╝ ██║   ██║██╔══██╗   ██║   ██╔══╝  ██║   ██║██║     ██║██║   ██║
+ ██║     ╚██████╔╝██║  ██║   ██║   ██║     ╚██████╔╝███████╗██║╚██████╔╝
+ ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝ 
                 </pre>
-                <div class="bios-brand">GHIMIRE SYSTEMS INC.  BIOS v2.26.02.20</div>
+                <div class="bios-subtitle">BIOS THEMED</div>
+                <div class="bios-brand">GHIMIRE SYSTEMS INC.  v2.26.02.20</div>
             </div>
             <div class="boot-log" id="boot-log"></div>
             <div class="boot-progress-wrap">
@@ -46,7 +47,7 @@
     <div id="bios-main" class="hidden">
 
         <!-- top bar -->
-        <header class="bios-header">
+        <header class="bios-header" data-hud="header">
             <div class="header-left">
                 <span class="header-brand">GHIMIRE BIOS SETUP UTILITY v2.26</span>
                 <span class="header-sep">|</span>
@@ -60,8 +61,11 @@
         </header>
 
         <!-- navigation tabs -->
-        <nav class="bios-nav">
-            <div class="nav-tabs">
+        <nav class="bios-nav" data-hud="nav">
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-tabs" id="nav-tabs">
                 <button class="nav-tab active" data-section="main">
                     <span class="tab-icon">▸</span> MAIN
                 </button>
@@ -90,7 +94,7 @@
         <div class="bios-body">
 
             <!-- left panel: section content -->
-            <div class="bios-panel left-panel">
+            <div class="bios-panel left-panel" data-hud="left-panel">
 
                 <!-- main section -->
                 <section class="bios-section active" id="section-main">
@@ -549,10 +553,6 @@
                             <span class="mem-label">Python</span>
                             <span class="mem-bar">[███████░░░]</span>
                         </div>
-                        <div class="mem-row">
-                            <span class="mem-label">React</span>
-                            <span class="mem-bar">[██████░░░░]</span>
-                        </div>
                     </div>
                 </div>
 
@@ -592,7 +592,7 @@
         </div><!-- /bios-body -->
 
         <!-- bottom bar -->
-        <footer class="bios-footer">
+        <footer class="bios-footer" data-hud="footer">
             <div class="footer-left">
                 <div class="esteregg">
                     <a href="https://miroredrpo.github.io/nerd-portfolio-/">
@@ -611,6 +611,9 @@
         </footer>
 
     </div><!-- /bios-main -->
+
+    <!-- hud grid overlay -->
+    <div class="hud-grid-overlay" id="hud-grid"></div>
 
     <!-- scanline overlay -->
     <div class="scanlines"></div>

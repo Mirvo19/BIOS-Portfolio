@@ -89,13 +89,197 @@ function finishBoot() {
     setTimeout(() => {
         bootScreen.style.display = 'none';
         biosMain.classList.remove('hidden');
-        initBIOS();
+        startClock();
+        updateCurrentDate();
+        initUptimeCounter();
+        runHudSequence();
     }, 650);
 }
 
-// runs once after the boot screen finishes
+// Plotter-style HUD construct — fully sequential, maximum granularity
+// Every visible sub-element gets its own draw animation
+function runHudSequence() {
+    const grid = document.getElementById('hud-grid');
+    if (grid) grid.classList.add('active');
+
+    const tl = [];
+    let t = 120;
+
+    function q(el, hudType, gap) {
+        if (!el) return;
+        el.setAttribute('data-hud', hudType);
+        tl.push({ el, delay: t });
+        t += gap;
+    }
+
+    // ───── 1. HEADER — border draws, then each inner piece ─────
+    const header = document.querySelector('.bios-header');
+    q(header, 'header', 90);
+
+    // Header-left zone
+    q(header?.querySelector('.header-left'), 'header-left', 55);
+    // Individual header children
+    q(header?.querySelector('.header-brand'), 'hud-brand', 48);
+    q(header?.querySelector('.header-sep'),   'hud-flash', 28);
+    q(header?.querySelector('.header-date'),  'hud-date',  40);
+
+    // Header-right zone
+    q(header?.querySelector('.header-right'),  'header-right', 48);
+    const statusEl = header?.querySelector('.header-status');
+    q(statusEl, 'hud-status', 32);
+    const statusDot = statusEl?.querySelector('.status-dot');
+    q(statusDot, 'hud-statusdot', 20);
+
+    // ───── 2. NAV — border draws, then icon+label of each tab ─────
+    const nav = document.querySelector('.bios-nav');
+    q(nav, 'nav', 80);
+
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        const icon = tab.querySelector('.tab-icon');
+        if (icon) q(icon, 'hud-tabicon', 20);
+        q(tab, 'nav-tab', 35);
+    });
+
+    document.querySelectorAll('.nav-keys .key-hint').forEach(h => {
+        q(h, 'hud-keyhint', 26);
+    });
+    t += 35;
+
+    // ───── 3. LEFT PANEL — border traces in ─────
+    const leftPanel = document.querySelector('.left-panel');
+    q(leftPanel, 'left-panel', 85);
+
+    // ───── 4. MAIN SECTION — deep granularity ─────
+    const mainSection = document.getElementById('section-main');
+    if (mainSection) {
+        // Title bars — icon then text
+        mainSection.querySelectorAll('.section-title-bar').forEach(el => {
+            const icon = el.querySelector('.section-icon');
+            if (icon) q(icon, 'hud-titleicon', 18);
+            q(el, 'title-bar', 44);
+        });
+
+        // Info rows — key traces in, then value traces in
+        mainSection.querySelectorAll('.info-row').forEach(el => {
+            const key = el.querySelector('.info-key');
+            const val = el.querySelector('.info-val');
+            if (key) q(key, 'hud-infokey', 22);
+            if (val) q(val, 'hud-infoval', 24);
+        });
+        t += 18;
+
+        // Separator lines — drawn left to right
+        mainSection.querySelectorAll('.separator-line').forEach(el => {
+            q(el, 'hud-electric', 36);
+        });
+
+        // Menu items — each sub-part individually
+        mainSection.querySelectorAll('.menu-item').forEach(el => {
+            q(el.querySelector('.menu-arrow'), 'hud-arrow', 18);
+            q(el.querySelector('.menu-label'), 'hud-label', 22);
+            q(el.querySelector('.menu-dots'),  'hud-dots',  24);
+            q(el.querySelector('.menu-val'),   'hud-val',   26);
+        });
+    }
+    t += 40;
+
+    // ───── 5. RIGHT PANEL — border traces in ─────
+    const rightPanel = document.querySelector('.right-panel');
+    q(rightPanel, 'right-panel', 85);
+
+    // ───── 6. RIGHT PANEL — skip section container, animate only children ─────
+    document.querySelectorAll('.right-section').forEach(section => {
+        // Section border
+        q(section, 'right-section', 30);
+
+        // Title bar — icon then text
+        const title = section.querySelector('.section-title-bar');
+        if (title) {
+            const icon = title.querySelector('.section-icon') || title.querySelector('.small');
+            q(title, 'right-title', 24);
+        }
+
+        // Clock — each digit group traced
+        const clock = section.querySelector('.clock-display');
+        if (clock) q(clock, 'clock', 28);
+
+        // Date line
+        const dateLine = section.querySelector('.date-display');
+        if (dateLine) q(dateLine, 'hud-date', 24);
+
+        // CPU bars — label then bar, each separately
+        section.querySelectorAll('.mini-bar-row').forEach(el => {
+            const lbl = el.querySelector('span');
+            const bar = el.querySelector('.mini-fill-wrap');
+            if (lbl) q(lbl, 'hud-minilabel', 18);
+            if (bar) q(bar, 'hud-minibar', 18);
+        });
+
+        // Memory map — label then bar
+        section.querySelectorAll('.mem-row').forEach(el => {
+            const lbl = el.querySelector('.mem-label');
+            const bar = el.querySelector('.mem-bar');
+            if (lbl) q(lbl, 'hud-memlabel', 14);
+            if (bar) q(bar, 'hud-membar', 18);
+        });
+
+        // Boot sequence items
+        section.querySelectorAll('.seq-item').forEach(el => {
+            q(el, 'hud-seq', 20);
+        });
+
+        // Key bindings — kbd then text
+        section.querySelectorAll('.key-item').forEach(el => {
+            el.querySelectorAll('kbd').forEach(k => q(k, 'hud-kbd', 14));
+            q(el, 'hud-keyitem', 18);
+        });
+
+        // Dev notice
+        const notice = section.querySelector('.dev-notice-box');
+        if (notice) {
+            const dot = notice.querySelector('.blink-dot');
+            if (dot) q(dot, 'hud-statusdot', 14);
+            q(notice, 'hud-notice', 30);
+        }
+
+        t += 14;
+    });
+
+    // ───── 7. FOOTER — border draws up, then each child span ─────
+    const footer = document.querySelector('.bios-footer');
+    q(footer, 'footer', 85);
+
+    // Footer left — each child separately
+    const fLeft = footer?.querySelector('.footer-left');
+    if (fLeft) {
+        q(fLeft, 'footer-child', 40);
+        const esteregg = fLeft.querySelector('.esteregg');
+        if (esteregg) q(esteregg, 'hud-brand', 26);
+        const fsep = fLeft.querySelector('.footer-sep');
+        if (fsep) q(fsep, 'hud-flash', 18);
+        // version span (last child span)
+        const spans = fLeft.querySelectorAll(':scope > span:not(.footer-sep)');
+        spans.forEach(s => q(s, 'hud-footspan', 20));
+    }
+
+    // Footer right — then each key-hint
+    const fRight = footer?.querySelector('.footer-right');
+    if (fRight) q(fRight, 'footer-child', 32);
+    footer?.querySelectorAll('.footer-right .key-hint').forEach(h => {
+        q(h, 'hud-keyhint', 22);
+    });
+
+    // ═══ EXECUTE ENTIRE TIMELINE ═══
+    tl.forEach(step => {
+        setTimeout(() => step.el.classList.add('hud-visible'), step.delay);
+    });
+
+    // init BIOS features after everything is revealed
+    setTimeout(() => initBIOS(), t + 200);
+}
+
+// runs once after the HUD sequence finishes
 function initBIOS() {
-    startClock();
     initTabs();
     initMenuItems();
     initTypingEffect();
@@ -103,8 +287,7 @@ function initBIOS() {
     initContactForm();
     initKeyboardNav();
     initFKeys();
-    updateCurrentDate();
-    initUptimeCounter();
+    initHamburger();
 }
 
 // updates the live clock every second
@@ -157,6 +340,18 @@ function initUptimeCounter() {
     setInterval(tick, 1000);
 }
 
+// toggles the mobile hamburger menu
+function initHamburger() {
+    const btn  = document.getElementById('hamburger');
+    const tabs = document.getElementById('nav-tabs');
+    if (!btn || !tabs) return;
+
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        tabs.classList.toggle('open');
+    });
+}
+
 // tab order and current index
 const TAB_NAMES = ['main', 'about', 'skills', 'projects', 'contact'];
 let currentTabIdx = 0;
@@ -179,8 +374,174 @@ function switchTab(name) {
         s.classList.toggle('active', s.id === `section-${name}`)
     );
 
-    if (name === 'skills')   setTimeout(animateSkillBars, 50);
+    // close mobile menu on tab switch
+    const hamburger = document.getElementById('hamburger');
+    const navTabs   = document.getElementById('nav-tabs');
+    if (hamburger) hamburger.classList.remove('open');
+    if (navTabs)   navTabs.classList.remove('open');
+
+    // run fast construct animation on the incoming section
+    animateSectionIn(name);
+
+    if (name === 'skills')   setTimeout(animateSkillBars, 400);
     if (name === 'projects') ensureProjectsLoaded();
+}
+
+// all tab-hud CSS class names we use
+const TAB_HUD_CLASSES = ['tab-hud-target','tab-hud-visible',
+    't-title','t-titleicon','t-row','t-infokey','t-infoval','t-bio',
+    't-flagstatus','t-flagname','t-skillname','t-skillbar','t-skillpct',
+    't-grouplabel','t-chip','t-form','t-formlabel','t-forminput',
+    't-btn','t-sep','t-block','t-menu','t-menuarrow','t-menulabel',
+    't-menudots','t-menuval','t-flag','t-skill'];
+
+// Deeply granular plotter-style construct animation for tab content
+function animateSectionIn(name) {
+    const section = document.getElementById(`section-${name}`);
+    if (!section) return;
+
+    // clean up previous animation classes
+    section.querySelectorAll('.tab-hud-target').forEach(el => {
+        el.classList.remove(...TAB_HUD_CLASSES);
+    });
+
+    // collect every element to animate, in DOM order, deeply
+    const targets = [];
+
+    function walk(parent) {
+        const kids = parent.children;
+        for (let i = 0; i < kids.length; i++) {
+            const el = kids[i];
+            const cl = el.classList;
+
+            // section title bars → icon then text
+            if (cl.contains('section-title-bar')) {
+                const icon = el.querySelector('.section-icon');
+                if (icon) targets.push({ el: icon, type: 't-titleicon' });
+                targets.push({ el, type: 't-title' });
+            }
+            // separator lines
+            else if (cl.contains('separator-line')) {
+                targets.push({ el, type: 't-sep' });
+            }
+            // info-table → each row split into key + val
+            else if (cl.contains('info-table')) {
+                el.querySelectorAll('.info-row').forEach(r => {
+                    const key = r.querySelector('.info-key');
+                    const val = r.querySelector('.info-val');
+                    if (key) targets.push({ el: key, type: 't-infokey' });
+                    if (val) targets.push({ el: val, type: 't-infoval' });
+                });
+            }
+            // menu list → each item split into arrow, label, dots, val
+            else if (cl.contains('menu-list')) {
+                el.querySelectorAll('.menu-item').forEach(r => {
+                    const arrow = r.querySelector('.menu-arrow');
+                    const label = r.querySelector('.menu-label');
+                    const dots  = r.querySelector('.menu-dots');
+                    const val   = r.querySelector('.menu-val');
+                    if (arrow) targets.push({ el: arrow, type: 't-menuarrow' });
+                    if (label) targets.push({ el: label, type: 't-menulabel' });
+                    if (dots)  targets.push({ el: dots,  type: 't-menudots' });
+                    if (val)   targets.push({ el: val,   type: 't-menuval' });
+                });
+            }
+            // bio block → each bio-line
+            else if (cl.contains('bio-block')) {
+                el.querySelectorAll('.bio-line').forEach(r =>
+                    targets.push({ el: r, type: 't-bio' })
+                );
+            }
+            // flags grid → each flag split into status + name
+            else if (cl.contains('flags-grid')) {
+                el.querySelectorAll('.flag-item').forEach(r => {
+                    const st = r.querySelector('.flag-status');
+                    const nm = r.querySelector('.flag-name');
+                    if (st) targets.push({ el: st, type: 't-flagstatus' });
+                    if (nm) targets.push({ el: nm, type: 't-flagname' });
+                });
+            }
+            // skill rows → each entry split into name, bar, pct
+            else if (cl.contains('skill-rows')) {
+                el.querySelectorAll('.skill-entry').forEach(r => {
+                    const nm  = r.querySelector('.skill-name');
+                    const bar = r.querySelector('.skill-bar-wrap');
+                    const pct = r.querySelector('.skill-pct');
+                    if (nm)  targets.push({ el: nm,  type: 't-skillname' });
+                    if (bar) targets.push({ el: bar, type: 't-skillbar' });
+                    if (pct) targets.push({ el: pct, type: 't-skillpct' });
+                });
+            }
+            // tools grid → each group label then each chip
+            else if (cl.contains('tools-grid')) {
+                el.querySelectorAll('.tool-group').forEach(group => {
+                    const label = group.querySelector('.tool-group-label');
+                    if (label) targets.push({ el: label, type: 't-grouplabel' });
+                    group.querySelectorAll('.tool-chip').forEach(chip =>
+                        targets.push({ el: chip, type: 't-chip' })
+                    );
+                });
+            }
+            // projects list → each project-entry
+            else if (cl.contains('projects-list')) {
+                el.querySelectorAll('.project-entry').forEach(r =>
+                    targets.push({ el: r, type: 't-block' })
+                );
+            }
+            // contact form → split into label + input, buttons separate
+            else if (cl.contains('bios-form')) {
+                el.querySelectorAll('.form-row').forEach(r => {
+                    if (r.classList.contains('form-submit-row')) {
+                        r.querySelectorAll('.bios-btn').forEach(btn =>
+                            targets.push({ el: btn, type: 't-btn' })
+                        );
+                    } else {
+                        const lbl = r.querySelector('.form-label');
+                        const inp = r.querySelector('.bios-input');
+                        if (lbl) targets.push({ el: lbl, type: 't-formlabel' });
+                        if (inp) targets.push({ el: inp, type: 't-forminput' });
+                    }
+                });
+            }
+            // link buttons → each button
+            else if (cl.contains('link-buttons')) {
+                el.querySelectorAll('.bios-btn').forEach(btn =>
+                    targets.push({ el: btn, type: 't-btn' })
+                );
+            }
+            // projects status line
+            else if (cl.contains('projects-status')) {
+                targets.push({ el, type: 't-bio' });
+            }
+            // projects footer
+            else if (cl.contains('projects-footer')) {
+                el.querySelectorAll('.bios-btn').forEach(btn =>
+                    targets.push({ el: btn, type: 't-btn' })
+                );
+            }
+            // fallback generic block
+            else {
+                targets.push({ el, type: 't-block' });
+            }
+        }
+    }
+
+    walk(section);
+
+    // hide all first
+    targets.forEach(t => {
+        t.el.classList.add('tab-hud-target');
+        t.el.classList.remove('tab-hud-visible', t.type);
+    });
+
+    // stagger reveal — 16ms per element for fine granularity
+    let delay = 20;
+    targets.forEach(t => {
+        setTimeout(() => {
+            t.el.classList.add('tab-hud-visible', t.type);
+        }, delay);
+        delay += 16;
+    });
 }
 
 // adds click listeners to main menu items

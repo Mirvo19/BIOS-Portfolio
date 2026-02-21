@@ -103,6 +103,443 @@ a:hover {
     100% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 2px); }
 }
 
+/* ── HUD Construct Animations — sketch/draw/trace style ── */
+/* Every animation uses clip-path reveals, smooth wipes, and linear traces.
+   Nothing pops or bounces — elements are "drawn" onto the screen. */
+
+/* Draw top edge then reveal downward — like a pen drawing the border */
+@keyframes drawDown {
+    0%   { opacity: 0; clip-path: inset(0 0 100% 0); }
+    10%  { opacity: 1; clip-path: inset(0 0 95% 0); }
+    30%  { clip-path: inset(0 0 72% 0); }
+    55%  { clip-path: inset(0 0 40% 0); }
+    80%  { clip-path: inset(0 0 12% 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Draw bottom edge then reveal upward */
+@keyframes drawUp {
+    0%   { opacity: 0; clip-path: inset(100% 0 0 0); }
+    10%  { opacity: 1; clip-path: inset(95% 0 0 0); }
+    30%  { clip-path: inset(72% 0 0 0); }
+    55%  { clip-path: inset(40% 0 0 0); }
+    80%  { clip-path: inset(12% 0 0 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Trace from left edge to right — stepped like a plotter pen */
+@keyframes traceRight {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    8%   { opacity: 1; clip-path: inset(0 96% 0 0); }
+    25%  { clip-path: inset(0 75% 0 0); }
+    45%  { clip-path: inset(0 48% 0 0); }
+    70%  { clip-path: inset(0 20% 0 0); }
+    90%  { clip-path: inset(0 5% 0 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Trace from right edge to left — stepped like a plotter pen */
+@keyframes traceLeft {
+    0%   { opacity: 0; clip-path: inset(0 0 0 100%); }
+    8%   { opacity: 1; clip-path: inset(0 0 0 96%); }
+    25%  { clip-path: inset(0 0 0 75%); }
+    45%  { clip-path: inset(0 0 0 48%); }
+    70%  { clip-path: inset(0 0 0 20%); }
+    90%  { clip-path: inset(0 0 0 5%); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Sketch outline — draw top line, then sides, then fill */
+@keyframes sketchBox {
+    0%   { opacity: 0; clip-path: polygon(0 0, 0 0, 0 0, 0 0); }
+    20%  { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); }
+    50%  { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    100% { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+/* Scan — a thin reveal line sweeps top to bottom progressively */
+@keyframes scanDown {
+    0%   { opacity: 0; clip-path: inset(0 0 100% 0); }
+    5%   { opacity: 1; clip-path: inset(0 0 96% 0); }
+    30%  { clip-path: inset(0 0 65% 0); }
+    60%  { clip-path: inset(0 0 30% 0); }
+    85%  { clip-path: inset(0 0 8% 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Thin horizontal line extends then expands vertically */
+@keyframes drawLine {
+    0%   { opacity: 0; clip-path: inset(48% 100% 48% 0); }
+    40%  { opacity: 1; clip-path: inset(48% 0 48% 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Typewriter — trace left to right like a cursor writing */
+@keyframes typeTrace {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    6%   { opacity: 1; clip-path: inset(0 95% 0 0); }
+    20%  { clip-path: inset(0 78% 0 0); }
+    40%  { clip-path: inset(0 52% 0 0); }
+    60%  { clip-path: inset(0 30% 0 0); }
+    80%  { clip-path: inset(0 10% 0 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Gentle fade while tracing from left */
+@keyframes fadeTrace {
+    0%   { opacity: 0; clip-path: inset(0 80% 0 0); }
+    30%  { opacity: 0.6; clip-path: inset(0 40% 0 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Construct from center outward */
+@keyframes expandCenter {
+    0%   { opacity: 0; clip-path: inset(0 50% 0 50%); }
+    15%  { opacity: 1; }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Sketch a small element — quick trace */
+@keyframes sketchSmall {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    20%  { opacity: 0.7; }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Draw dots/lines progressively */
+@keyframes drawDots {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    100% { opacity: 0.6; clip-path: inset(0 0 0 0); }
+}
+/* Construct a bar — scaleX from 0 to 1, no overshoot */
+@keyframes constructBar {
+    0%   { opacity: 0; transform: scaleX(0); transform-origin: left; }
+    15%  { opacity: 1; }
+    100% { opacity: 1; transform: scaleX(1); }
+}
+/* Clock digits — expand from center */
+@keyframes constructClock {
+    0%   { opacity: 0; clip-path: inset(20% 50% 20% 50%); }
+    20%  { opacity: 1; clip-path: inset(10% 30% 10% 30%); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Separator — draw a line left to right */
+@keyframes drawSeparator {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    20%  { opacity: 0.4; }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Notice — outline draws in then fill fades */
+@keyframes constructNotice {
+    0%   { opacity: 0; clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+    30%  { opacity: 0.5; clip-path: polygon(0 0, 60% 0, 60% 100%, 0 100%); }
+    100% { opacity: 1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+/* Hidden state for HUD elements before reveal */
+[data-hud] {
+    opacity: 0;
+    visibility: hidden;
+}
+[data-hud].hud-visible {
+    visibility: visible;
+}
+
+/* ── Per-component construct selectors ── */
+/* Header — draws top line then reveals downward */
+[data-hud="header"].hud-visible {
+    animation: drawDown 0.6s ease forwards;
+}
+/* Nav — same draw-down construct */
+[data-hud="nav"].hud-visible {
+    animation: drawDown 0.5s ease forwards;
+}
+/* Nav tabs — trace in from left */
+[data-hud="nav-tab"].hud-visible {
+    animation: traceRight 0.38s ease forwards;
+}
+/* Left panel — trace from left edge */
+[data-hud="left-panel"].hud-visible {
+    animation: traceRight 0.6s ease forwards;
+}
+/* Title bars — wipe right like drawing a highlight */
+[data-hud="title-bar"].hud-visible {
+    animation: traceRight 0.42s ease forwards;
+}
+/* Right sections — scan reveal top to bottom */
+[data-hud="right-section"].hud-visible {
+    animation: scanDown 0.5s ease forwards;
+}
+/* Right titles — trace right */
+[data-hud="right-title"].hud-visible {
+    animation: traceRight 0.25s ease forwards;
+}
+/* Clock — expand from center */
+[data-hud="clock"].hud-visible {
+    animation: constructClock 0.55s ease forwards;
+}
+/* Footer — draws up from bottom edge */
+[data-hud="footer"].hud-visible {
+    animation: drawUp 0.6s ease forwards;
+}
+/* Footer children — typewriter trace */
+[data-hud="footer-child"].hud-visible {
+    animation: typeTrace 0.35s ease forwards;
+}
+/* Info rows — trace right like writing data */
+[data-hud="info-row"].hud-visible {
+    animation: traceRight 0.3s ease forwards;
+}
+/* Header left — typewriter trace */
+[data-hud="header-left"].hud-visible {
+    animation: typeTrace 0.4s ease forwards;
+}
+/* Header right — trace from right side */
+[data-hud="header-right"].hud-visible {
+    animation: traceLeft 0.35s ease forwards;
+}
+
+/* ── Granular element construct selectors ── */
+/* Right panel — trace from right edge */
+[data-hud="right-panel"].hud-visible {
+    animation: traceLeft 0.6s ease forwards;
+}
+/* Brand text — typewriter trace */
+[data-hud="hud-brand"].hud-visible {
+    animation: typeTrace 0.55s ease forwards;
+}
+/* Separator flash — simple line draw */
+[data-hud="hud-flash"].hud-visible {
+    animation: drawSeparator 0.2s ease forwards;
+}
+/* Date — fade + trace */
+[data-hud="hud-date"].hud-visible {
+    animation: fadeTrace 0.3s ease forwards;
+}
+/* Status — expand from center */
+[data-hud="hud-status"].hud-visible {
+    animation: expandCenter 0.35s ease forwards;
+}
+/* Menu arrow — quick sketch */
+[data-hud="hud-arrow"].hud-visible {
+    animation: sketchSmall 0.2s ease forwards;
+}
+/* Menu label — trace right */
+[data-hud="hud-label"].hud-visible {
+    animation: typeTrace 0.25s ease forwards;
+}
+/* Menu dots — draw progressively */
+[data-hud="hud-dots"].hud-visible {
+    animation: drawDots 0.4s linear forwards;
+}
+/* Menu value — trace from right */
+[data-hud="hud-val"].hud-visible {
+    animation: traceLeft 0.25s ease forwards;
+}
+/* Separator lines — draw left to right */
+[data-hud="hud-electric"].hud-visible {
+    animation: drawSeparator 0.4s ease forwards;
+}
+/* Boot sequence items — trace right */
+[data-hud="hud-seq"].hud-visible {
+    animation: traceRight 0.22s ease forwards;
+}
+/* Key binding items — sketch in */
+[data-hud="hud-keyitem"].hud-visible {
+    animation: sketchSmall 0.22s ease forwards;
+}
+/* Mini bar labels — fade trace */
+[data-hud="hud-minilabel"].hud-visible {
+    animation: fadeTrace 0.2s ease forwards;
+}
+/* Mini bar fills — construct bar from left */
+[data-hud="hud-minibar"].hud-visible {
+    animation: constructBar 0.3s ease forwards;
+}
+/* Memory labels — trace right */
+[data-hud="hud-memlabel"].hud-visible {
+    animation: traceRight 0.2s ease forwards;
+}
+/* Memory ASCII bars — trace right */
+[data-hud="hud-membar"].hud-visible {
+    animation: traceRight 0.3s ease forwards;
+}
+/* Notice box — construct from left */
+[data-hud="hud-notice"].hud-visible {
+    animation: constructNotice 0.4s ease forwards;
+}
+/* Key hints — sketch in */
+[data-hud="hud-keyhint"].hud-visible {
+    animation: sketchSmall 0.22s ease forwards;
+}
+/* Info row key — trace right (the label part) */
+[data-hud="hud-infokey"].hud-visible {
+    animation: typeTrace 0.2s ease forwards;
+}
+/* Info row value — trace from right */
+[data-hud="hud-infoval"].hud-visible {
+    animation: traceLeft 0.22s ease forwards;
+}
+/* Title bar icon — sketch small quick */
+[data-hud="hud-titleicon"].hud-visible {
+    animation: sketchSmall 0.12s ease forwards;
+}
+/* Tab icon (▸) — quick sketch */
+[data-hud="hud-tabicon"].hud-visible {
+    animation: sketchSmall 0.1s ease forwards;
+}
+/* Status dot — expand from center */
+[data-hud="hud-statusdot"].hud-visible {
+    animation: expandCenter 0.2s ease forwards;
+}
+/* Keyboard keys in key bindings */
+[data-hud="hud-kbd"].hud-visible {
+    animation: sketchSmall 0.12s ease forwards;
+}
+/* Footer version span */
+[data-hud="hud-footspan"].hud-visible {
+    animation: typeTrace 0.2s ease forwards;
+}
+
+/* ── Fast tab-switch construct animations (sketch/draw style) ── */
+
+/* Section children hidden before tab-switch anim */
+.bios-section .tab-hud-target {
+    opacity: 0;
+}
+.bios-section .tab-hud-target.tab-hud-visible {
+    opacity: 1;
+}
+
+/* Title bars — trace right */
+.tab-hud-target.tab-hud-visible.t-title {
+    animation: traceRight 0.22s ease forwards;
+}
+/* Info/data rows — trace right */
+.tab-hud-target.tab-hud-visible.t-row {
+    animation: traceRight 0.18s ease forwards;
+}
+/* Bio lines — typewriter trace */
+.tab-hud-target.tab-hud-visible.t-bio {
+    animation: typeTrace 0.22s ease forwards;
+}
+/* Flag items — sketch in */
+.tab-hud-target.tab-hud-visible.t-flag {
+    animation: sketchSmall 0.2s ease forwards;
+}
+/* Skill entries — trace right */
+.tab-hud-target.tab-hud-visible.t-skill {
+    animation: traceRight 0.2s ease forwards;
+}
+/* Tool group labels — trace right */
+.tab-hud-target.tab-hud-visible.t-grouplabel {
+    animation: traceRight 0.18s ease forwards;
+}
+/* Tool chips — sketch in */
+.tab-hud-target.tab-hud-visible.t-chip {
+    animation: sketchSmall 0.18s ease forwards;
+}
+/* Form rows — scan down */
+.tab-hud-target.tab-hud-visible.t-form {
+    animation: scanDown 0.2s ease forwards;
+}
+/* Buttons — draw line then expand */
+.tab-hud-target.tab-hud-visible.t-btn {
+    animation: drawLine 0.2s ease forwards;
+}
+/* Separator lines — draw left to right */
+.tab-hud-target.tab-hud-visible.t-sep {
+    animation: drawSeparator 0.15s ease forwards;
+}
+/* Generic blocks — scan down */
+.tab-hud-target.tab-hud-visible.t-block {
+    animation: scanDown 0.22s ease forwards;
+}
+/* Menu items — trace right */
+.tab-hud-target.tab-hud-visible.t-menu {
+    animation: traceRight 0.2s ease forwards;
+}
+/* Menu arrow — sketch small */
+.tab-hud-target.tab-hud-visible.t-menuarrow {
+    animation: sketchSmall 0.1s ease forwards;
+}
+/* Menu label — typewriter */
+.tab-hud-target.tab-hud-visible.t-menulabel {
+    animation: typeTrace 0.16s ease forwards;
+}
+/* Menu dots — draw progressively */
+.tab-hud-target.tab-hud-visible.t-menudots {
+    animation: drawDots 0.22s linear forwards;
+}
+/* Menu value — trace from right */
+.tab-hud-target.tab-hud-visible.t-menuval {
+    animation: traceLeft 0.16s ease forwards;
+}
+/* Title icon — quick sketch */
+.tab-hud-target.tab-hud-visible.t-titleicon {
+    animation: sketchSmall 0.08s ease forwards;
+}
+/* Info key — typewriter trace */
+.tab-hud-target.tab-hud-visible.t-infokey {
+    animation: typeTrace 0.14s ease forwards;
+}
+/* Info value — trace from right */
+.tab-hud-target.tab-hud-visible.t-infoval {
+    animation: traceLeft 0.16s ease forwards;
+}
+/* Flag status — sketch */
+.tab-hud-target.tab-hud-visible.t-flagstatus {
+    animation: sketchSmall 0.12s ease forwards;
+}
+/* Flag name — typewriter */
+.tab-hud-target.tab-hud-visible.t-flagname {
+    animation: typeTrace 0.16s ease forwards;
+}
+/* Skill name — typewriter */
+.tab-hud-target.tab-hud-visible.t-skillname {
+    animation: typeTrace 0.14s ease forwards;
+}
+/* Skill bar — construct bar from left */
+.tab-hud-target.tab-hud-visible.t-skillbar {
+    animation: constructBar 0.22s ease forwards;
+}
+/* Skill percentage — trace from right */
+.tab-hud-target.tab-hud-visible.t-skillpct {
+    animation: traceLeft 0.12s ease forwards;
+}
+/* Form label — typewriter */
+.tab-hud-target.tab-hud-visible.t-formlabel {
+    animation: typeTrace 0.14s ease forwards;
+}
+/* Form input — draw line then expand */
+.tab-hud-target.tab-hud-visible.t-forminput {
+    animation: drawLine 0.2s ease forwards;
+}
+
+/* Overlay grid flash during init */
+.hud-grid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 4999;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 30px,
+            rgba(0,245,196,0.03) 30px,
+            rgba(0,245,196,0.03) 31px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 30px,
+            rgba(0,245,196,0.03) 30px,
+            rgba(0,245,196,0.03) 31px
+        );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.hud-grid-overlay.active {
+    animation: hudGridPulse 2.5s ease forwards;
+}
+@keyframes hudGridPulse {
+    0%   { opacity: 0; }
+    10%  { opacity: 0.8; }
+    40%  { opacity: 0.3; }
+    70%  { opacity: 0.15; }
+    100% { opacity: 0; }
+}
+
 .blink-text { animation: blink 1s step-end infinite; }
 .blink-dot  {
     display: inline-block;
@@ -158,6 +595,15 @@ a:hover {
     font-size: 12px;
     margin-top: 6px;
     letter-spacing: 2px;
+}
+
+.bios-subtitle {
+    color: var(--cyan2);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 6px;
+    margin-top: 8px;
+    text-shadow: 0 0 6px rgba(0,201,160,0.4);
 }
 
 .boot-log {
@@ -224,7 +670,6 @@ a:hover {
     display: flex;
     flex-direction: column;
     background: var(--bg);
-    animation: fadeIn 0.4s ease;
     overflow: hidden;
 }
 
@@ -331,6 +776,36 @@ a:hover {
 .key-hint {
     color: var(--dim);
     font-size: 11px;
+}
+
+/* ── Hamburger ── */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    z-index: 10;
+}
+.hamburger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--cyan);
+    transition: all 0.25s ease;
+}
+.hamburger.open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
 }
 
 /* ── Body ── */
@@ -1031,6 +1506,8 @@ kbd {
 /*
    RESPONSIVE
  */
+
+/* ── Tablet ≤ 900px ── */
 @media (max-width: 900px) {
     .right-panel { width: 180px; }
     .info-key { min-width: 110px; }
@@ -1039,13 +1516,211 @@ kbd {
     .menu-dots, .menu-val { display: none; }
 }
 
-@media (max-width: 650px) {
-    body { overflow: auto; }
-    #bios-main { overflow: auto; }
-    .bios-body { flex-direction: column; overflow: visible; }
-    .right-panel { width: 100%; border-right: none; border-top: 1px solid var(--border); }
-    .left-panel { overflow: visible; }
-    .nav-tab { padding: 0 10px; font-size: 11px; }
-    .header-brand { font-size: 13px; }
-    html, body { overflow: auto; }
+/* ── Small Tablet / Large Phone ≤ 768px ── */
+@media (max-width: 768px) {
+    html, body {
+        overflow: auto;
+        font-size: 12px;
+    }
+    #bios-main {
+        position: relative;
+        overflow: auto;
+        min-height: 100vh;
+    }
+
+    /* Header */
+    .bios-header {
+        padding: 0 10px;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: var(--header-h);
+    }
+    .header-brand { font-size: 14px; }
+    .header-sep { display: none; }
+    .header-date { display: none; }
+
+    /* Nav — show hamburger, collapse tabs */
+    .hamburger { display: flex; }
+    .bios-nav {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: var(--nav-h);
+        padding: 6px;
+    }
+    .nav-tabs {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        order: 2;
+    }
+    .nav-tabs.open {
+        display: flex;
+    }
+    .nav-tab {
+        padding: 8px 14px;
+        border-right: none;
+        border-bottom: 1px solid var(--border2);
+        justify-content: flex-start;
+        font-size: 12px;
+    }
+    .nav-keys { display: none; }
+
+    /* Body — single column */
+    .bios-body {
+        flex-direction: column;
+        overflow: visible;
+    }
+    .left-panel {
+        border-right: none;
+        overflow: visible;
+    }
+    .right-panel {
+        width: 100%;
+        border-top: 1px solid var(--border);
+        flex-shrink: 0;
+    }
+
+    /* Info rows */
+    .info-key { min-width: 100px; }
+
+    /* Skills */
+    .skill-name { min-width: 80px; }
+    .skill-entry { flex-wrap: wrap; }
+
+    /* Projects */
+    .project-entry-header { flex-wrap: wrap; gap: 6px; }
+    .project-links { width: 100%; }
+
+    /* Contact form — stack labels */
+    .form-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .form-label {
+        min-width: unset;
+        padding-top: 0;
+    }
+
+    /* Footer */
+    .bios-footer {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 6px 10px;
+        gap: 6px;
+    }
+    .footer-right { display: none; }
+
+    /* Popup */
+    .popup-box {
+        min-width: unset;
+        width: 90vw;
+        padding: 18px;
+    }
+}
+
+/* ── Phone ≤ 560px ── */
+@media (max-width: 560px) {
+    /* Boot screen */
+    .ascii-logo {
+        font-size: clamp(5px, 2.5vw, 10px);
+    }
+    .boot-content {
+        width: 98vw;
+        padding: 0 4px;
+    }
+    .boot-log {
+        height: 120px;
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    /* Header shrink */
+    .bios-header { padding: 0 8px; }
+    .header-brand { font-size: 12px; letter-spacing: 0; }
+
+    /* Panels */
+    .bios-panel { padding: 10px 8px; }
+
+    /* Info rows — stack key/val */
+    .info-row {
+        flex-direction: column;
+        gap: 2px;
+        padding: 5px 6px;
+    }
+    .info-key {
+        min-width: unset;
+        font-size: 10px;
+    }
+    .info-key::after { content: ''; }
+    .info-val { font-size: 12px; padding-left: 8px; }
+
+    /* Menu */
+    .menu-item { font-size: 11px; }
+    .menu-label { min-width: unset; }
+
+    /* Section titles */
+    .section-title-bar {
+        font-size: 10px;
+        letter-spacing: 1px;
+        padding: 4px 8px;
+    }
+
+    /* Skills */
+    .skill-entry {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .skill-name {
+        min-width: unset;
+        width: 100%;
+        font-size: 11px;
+    }
+    .skill-bar-wrap { flex: 1; min-width: 0; }
+    .skill-pct { min-width: 30px; font-size: 10px; }
+
+    /* Tool chips */
+    .tool-chip {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+
+    /* Projects */
+    .project-entry { padding: 8px 10px; }
+    .project-name { font-size: 12px; }
+    .project-desc { font-size: 10px; }
+    .project-meta { flex-wrap: wrap; gap: 8px; }
+
+    /* Flags */
+    .flag-item {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    .flag-status {
+        min-width: unset;
+        font-size: 10px;
+    }
+
+    /* Right panel sections */
+    .clock-display { font-size: 28px; }
+    .right-section { padding: 8px; }
+    .key-list { grid-template-columns: 1fr; }
+
+    /* Footer */
+    .footer-left {
+        flex-wrap: wrap;
+        font-size: 10px;
+        gap: 4px;
+    }
+    .footer-sep { display: none; }
+
+    /* Bio */
+    .bio-line { font-size: 11px; }
+
+    /* Form buttons */
+    .form-submit-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .bios-btn { font-size: 10px; padding: 6px 10px; text-align: center; }
+    .link-buttons { flex-direction: column; }
 }
