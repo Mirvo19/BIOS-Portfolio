@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMIR GHIMIRE // BIOS v2.26</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- boot screen overlay -->
+    <div id="boot-screen">
+        <div class="boot-content">
+            <div class="boot-logo">
+                <pre class="ascii-logo">
+ ██████╗ ██╗ ██████╗ ███████╗
+ ██╔══██╗██║██╔═══██╗██╔════╝
+ ██████╔╝██║██║   ██║███████╗
+ ██╔══██╗██║██║   ██║╚════██║
+ ██████╔╝██║╚██████╔╝███████║
+ ╚═════╝ ╚═╝ ╚═════╝ ╚══════╝
+                </pre>
+                <div class="bios-brand">GHIMIRE SYSTEMS INC.  BIOS v2.26.02.20</div>
+            </div>
+            <div class="boot-log" id="boot-log"></div>
+            <div class="boot-progress-wrap">
+                <div class="boot-progress-bar">
+                    <div class="boot-progress-fill" id="boot-fill"></div>
+                </div>
+                <span id="boot-pct">0%</span>
+            </div>
+            <div class="boot-hint blink-text">Press any key to skip...</div>
+        </div>
+    </div>
+
+    <!-- main bios ui -->
+    <div id="bios-main" class="hidden">
+
+        <!-- top bar -->
+        <header class="bios-header">
+            <div class="header-left">
+                <span class="header-brand">GHIMIRE BIOS SETUP UTILITY v2.26</span>
+                <span class="header-sep">|</span>
+                <span class="header-date" id="live-date"></span>
+            </div>
+            <div class="header-right">
+                <span class="header-status">
+                    <span class="status-dot blink-dot"></span> ONLINE
+                </span>
+            </div>
+        </header>
+
+        <!-- navigation tabs -->
+        <nav class="bios-nav">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-section="main">
+                    <span class="tab-icon">▸</span> MAIN
+                </button>
+                <button class="nav-tab" data-section="about">
+                    <span class="tab-icon">▸</span> ABOUT
+                </button>
+                <button class="nav-tab" data-section="skills">
+                    <span class="tab-icon">▸</span> SKILLS
+                </button>
+                <button class="nav-tab" data-section="projects">
+                    <span class="tab-icon">▸</span> PROJECTS
+                </button>
+                <button class="nav-tab" data-section="contact">
+                    <span class="tab-icon">▸</span> CONTACT
+                </button>
+            </div>
+            <div class="nav-keys">
+                <span class="key-hint">[←][→] Select Tab</span>
+                <span class="key-hint">[↑][↓] Navigate</span>
+                <span class="key-hint">[Enter] Select</span>
+                <span class="key-hint">[F10] Save</span>
+            </div>
+        </nav>
+
+        <!-- bios body -->
+        <div class="bios-body">
+
+            <!-- left panel: section content -->
+            <div class="bios-panel left-panel">
+
+                <!-- main section -->
+                <section class="bios-section active" id="section-main">
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        SYSTEM INFORMATION
+                    </div>
+                    <div class="info-table">
+                        <div class="info-row">
+                            <span class="info-key">SYSTEM NAME</span>
+                            <span class="info-val accent">Samir Ghimire</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">ROLE</span>
+                            <span class="info-val accent">Full Stack Developer</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">STATUS</span>
+                            <span class="info-val green">
+                                <span class="blink-dot green-dot"></span> SEEKING OPPORTUNITIES
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">LOCATION</span>
+                            <span class="info-val">Earth / DSS Student</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">BUILD DATE</span>
+                            <span class="info-val" id="current-date"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">UPTIME</span>
+                            <span class="info-val" id="uptime-counter">00:00:00</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">BIOS VERSION</span>
+                            <span class="info-val">v2.26.02.20-RELEASE</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">GITHUB</span>
+                            <span class="info-val">
+                                <a href="https://github.com/Mirvo19" target="_blank" class="bios-link">github.com/Mirvo19</a>
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">EMAIL</span>
+                            <span class="info-val">
+                                <a href="mailto:unonown97@gmail.com" class="bios-link">unonown97@gmail.com</a>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        QUICK BOOT MENU
+                    </div>
+                    <div class="menu-list">
+                        <div class="menu-item selectable" data-target="about">
+                            <span class="menu-arrow">▶</span>
+                            <span class="menu-label">About Me</span>
+                            <span class="menu-dots">.............................</span>
+                            <span class="menu-val">Personal Profile</span>
+                        </div>
+                        <div class="menu-item selectable" data-target="skills">
+                            <span class="menu-arrow">▶</span>
+                            <span class="menu-label">Skills &amp; Technologies</span>
+                            <span class="menu-dots">..................</span>
+                            <span class="menu-val">Hardware Specs</span>
+                        </div>
+                        <div class="menu-item selectable" data-target="projects">
+                            <span class="menu-arrow">▶</span>
+                            <span class="menu-label">Projects</span>
+                            <span class="menu-dots">.........................</span>
+                            <span class="menu-val">Installed Programs</span>
+                        </div>
+                        <div class="menu-item selectable" data-target="contact">
+                            <span class="menu-arrow">▶</span>
+                            <span class="menu-label">Contact</span>
+                            <span class="menu-dots">.........................</span>
+                            <span class="menu-val">I/O Configuration</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- about section -->
+                <section class="bios-section" id="section-about">
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        DEVELOPER PROFILE
+                    </div>
+                    <div class="info-table">
+                        <div class="info-row">
+                            <span class="info-key">IDENTITY</span>
+                            <span class="info-val accent">Samir Ghimire</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">INSTITUTION</span>
+                            <span class="info-val">DSS (Student)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">PASSION</span>
+                            <span class="info-val green">Technology &amp; Development</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">IDLE STATE</span>
+                            <span class="info-val">Mostly Nothing</span>
+                        </div>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        BIO DUMP
+                    </div>
+                    <div class="bio-block">
+                        <p class="bio-line">
+                            <span class="prompt">&gt;_</span>
+                            Hello! I'm <span class="accent">Samir Ghimire</span>, a student at DSS
+                            who is passionate about Technology.
+                        </p>
+                        <p class="bio-line">
+                            <span class="prompt">&gt;_</span>
+                            I build exceptional digital experiences and love exploring
+                            the intersection of design and engineering.
+                        </p>
+                        <p class="bio-line">
+                            <span class="prompt">&gt;_</span>
+                            When I'm not coding, you can find me doing <span class="yellow">mostly nothing</span>.
+                        </p>
+                        <p class="bio-line typing-line" id="typing-bio">
+                            <span class="prompt">&gt;_</span>
+                            <span id="typed-text"></span><span class="cursor blink-text">█</span>
+                        </p>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        SYSTEM FLAGS
+                    </div>
+                    <div class="flags-grid">
+                        <div class="flag-item enabled">
+                            <span class="flag-status">[ENABLED ]</span>
+                            <span class="flag-name">Creative Thinking</span>
+                        </div>
+                        <div class="flag-item enabled">
+                            <span class="flag-status">[ENABLED ]</span>
+                            <span class="flag-name">Problem Solving</span>
+                        </div>
+                        <div class="flag-item enabled">
+                            <span class="flag-status">[ENABLED ]</span>
+                            <span class="flag-name">Continuous Learning</span>
+                        </div>
+                        <div class="flag-item enabled">
+                            <span class="flag-status">[ENABLED ]</span>
+                            <span class="flag-name">Team Collaboration</span>
+                        </div>
+                        <div class="flag-item disabled">
+                            <span class="flag-status">[DISABLED]</span>
+                            <span class="flag-name">Procrastination Override</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- skills section -->
+                <section class="bios-section" id="section-skills">
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        FRONTEND — INSTALLED MODULES
+                    </div>
+                    <div class="skill-rows">
+                        <div class="skill-entry">
+                            <span class="skill-name">HTML5</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="92"></div>
+                            </div>
+                            <span class="skill-pct">92%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">CSS3</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="88"></div>
+                            </div>
+                            <span class="skill-pct">88%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">JavaScript</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="85"></div>
+                            </div>
+                            <span class="skill-pct">85%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">TypeScript</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="72"></div>
+                            </div>
+                            <span class="skill-pct">72%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">Tailwind CSS</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="82"></div>
+                            </div>
+                            <span class="skill-pct">82%</span>
+                        </div>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        BACKEND — SYSTEM DRIVERS
+                    </div>
+                    <div class="skill-rows">
+                        <div class="skill-entry">
+                            <span class="skill-name">Node.js</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="78"></div>
+                            </div>
+                            <span class="skill-pct">78%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">Python</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="80"></div>
+                            </div>
+                            <span class="skill-pct">80%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">Flask</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="70"></div>
+                            </div>
+                            <span class="skill-pct">70%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">Kotlin</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="70"></div>
+                            </div>
+                            <span class="skill-pct">70%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">MySQL / PostgreSQL</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="72"></div>
+                            </div>
+                            <span class="skill-pct">72%</span>
+                        </div>
+                        <div class="skill-entry">
+                            <span class="skill-name">Firebase / Supabase</span>
+                            <div class="skill-bar-wrap">
+                                <div class="skill-bar-fill" data-width="74"></div>
+                            </div>
+                            <span class="skill-pct">74%</span>
+                        </div>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        TOOLS — PERIPHERAL DEVICES
+                    </div>
+                    <div class="tools-grid">
+                        <div class="tool-group">
+                            <span class="tool-group-label">▸ VERSION CONTROL</span>
+                            <div class="tool-chips">
+                                <div class="tool-chip">GIT</div>
+                                <div class="tool-chip">GITHUB</div>
+                                <div class="tool-chip">GITLAB</div>
+                                <div class="tool-chip">GIT FLOW</div>
+                            </div>
+                        </div>
+                        <div class="tool-group">
+                            <span class="tool-group-label">▸ CI/CD</span>
+                            <div class="tool-chips">
+                                <div class="tool-chip">GITHUB ACTIONS</div>
+                                <div class="tool-chip">GITLAB CI</div>
+                            </div>
+                        </div>
+                        <div class="tool-group">
+                            <span class="tool-group-label">▸ DEV TOOLS</span>
+                            <div class="tool-chips">
+                                <div class="tool-chip">VS CODE</div>
+                                <div class="tool-chip">ANDROID STUDIO</div>
+                                <div class="tool-chip">DOCKER</div>
+                                <div class="tool-chip">CLI</div>
+                                <div class="tool-chip">NPM</div>
+                            </div>
+                        </div>
+                        <div class="tool-group">
+                            <span class="tool-group-label">▸ DESIGN &amp; TESTING</span>
+                            <div class="tool-chips">
+                                <div class="tool-chip">FIGMA</div>
+                                <div class="tool-chip">POSTMAN</div>
+                                <div class="tool-chip">RESPONSIVE DESIGN</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- projects section -->
+                <section class="bios-section" id="section-projects">
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        INSTALLED PROGRAMS — GITHUB REPOSITORY
+                        <span class="badge blink-text">LIVE DATA</span>
+                    </div>
+                    <div id="projects-status" class="projects-status">
+                        <span class="prompt">&gt;_</span>
+                        <span id="projects-status-text">Scanning GitHub repositories...</span>
+                        <span class="cursor blink-text">█</span>
+                    </div>
+                    <div id="projects-list" class="projects-list"></div>
+                    <div class="separator-line"></div>
+                    <div class="projects-footer">
+                        <a href="https://github.com/Mirvo19" target="_blank" rel="noopener noreferrer" class="bios-btn">
+                            [ VIEW ALL ON GITHUB ]
+                        </a>
+                    </div>
+                </section>
+
+                <!-- contact section -->
+                <section class="bios-section" id="section-contact">
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        I/O CONFIGURATION — CONTACT PORTS
+                    </div>
+                    <div class="info-table">
+                        <div class="info-row">
+                            <span class="info-key">EMAIL PORT</span>
+                            <span class="info-val">
+                                <a href="mailto:unonown97@gmail.com" class="bios-link">unonown97@gmail.com</a>
+                                <span class="green"> [OPEN]</span>
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">GITHUB PORT</span>
+                            <span class="info-val">
+                                <a href="https://github.com/Mirvo19" target="_blank" class="bios-link">github.com/Mirvo19</a>
+                                <span class="green"> [OPEN]</span>
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">RESPONSE TIME</span>
+                            <span class="info-val green">As soon as possible</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">AVAILABILITY</span>
+                            <span class="info-val green">
+                                <span class="blink-dot green-dot"></span> OPEN TO OPPORTUNITIES
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        SEND MESSAGE — SERIAL TERMINAL
+                    </div>
+                    <form class="bios-form" id="contact-form">
+                        <div class="form-row">
+                            <label class="form-label">NAME_INPUT:</label>
+                            <input type="text" class="bios-input" id="form-name" placeholder="Enter your name..." autocomplete="off">
+                        </div>
+                        <div class="form-row">
+                            <label class="form-label">EMAIL_ADDR:</label>
+                            <input type="email" class="bios-input" id="form-email" placeholder="Enter your email..." autocomplete="off">
+                        </div>
+                        <div class="form-row">
+                            <label class="form-label">MESSAGE__:</label>
+                            <textarea class="bios-input bios-textarea" id="form-message" placeholder="Type your message..." rows="4"></textarea>
+                        </div>
+                        <div class="form-row form-submit-row">
+                            <button type="submit" class="bios-btn bios-btn-primary">
+                                [ TRANSMIT MESSAGE ]
+                            </button>
+                            <button type="reset" class="bios-btn">
+                                [ CLEAR BUFFER ]
+                            </button>
+                        </div>
+                        <div id="form-status" class="form-status"></div>
+                    </form>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        SYSTEM LINKS
+                    </div>
+                    <div class="link-buttons">
+                        <a href="https://github.com/Mirvo19" target="_blank" rel="noopener noreferrer" class="bios-btn">
+                            [ GITHUB PROFILE ]
+                        </a>
+                        <a href="mailto:unonown97@gmail.com" class="bios-btn">
+                            [ SEND EMAIL ]
+                        </a>
+                    </div>
+                </section>
+
+            </div><!-- /left-panel -->
+
+            <!-- right panel: sidebar info -->
+            <div class="bios-panel right-panel">
+                <div class="right-section">
+                    <div class="section-title-bar small">SYSTEM CLOCK</div>
+                    <div class="clock-display" id="live-clock">00:00:00</div>
+                    <div class="date-display" id="live-date-side"></div>
+                </div>
+
+                <div class="right-section">
+                    <div class="section-title-bar small">CPU LOAD</div>
+                    <div class="mini-bars">
+                        <div class="mini-bar-row">
+                            <span>CREATIVITY</span>
+                            <div class="mini-fill-wrap"><div class="mini-fill animated-fill" style="--target:88%"></div></div>
+                        </div>
+                        <div class="mini-bar-row">
+                            <span>LOGIC</span>
+                            <div class="mini-fill-wrap"><div class="mini-fill animated-fill" style="--target:85%"></div></div>
+                        </div>
+                        <div class="mini-bar-row">
+                            <span>FOCUS</span>
+                            <div class="mini-fill-wrap"><div class="mini-fill animated-fill" style="--target:70%"></div></div>
+                        </div>
+                        <div class="mini-bar-row">
+                            <span>COFFEE</span>
+                            <div class="mini-fill-wrap"><div class="mini-fill animated-fill red-fill" style="--target:95%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-section">
+                    <div class="section-title-bar small">MEMORY MAP</div>
+                    <div class="mem-map">
+                        <div class="mem-row">
+                            <span class="mem-label">HTML5</span>
+                            <span class="mem-bar">[████████░░]</span>
+                        </div>
+                        <div class="mem-row">
+                            <span class="mem-label">CSS3</span>
+                            <span class="mem-bar">[████████░░]</span>
+                        </div>
+                        <div class="mem-row">
+                            <span class="mem-label">JS</span>
+                            <span class="mem-bar">[████████░░]</span>
+                        </div>
+                        <div class="mem-row">
+                            <span class="mem-label">Python</span>
+                            <span class="mem-bar">[███████░░░]</span>
+                        </div>
+                        <div class="mem-row">
+                            <span class="mem-label">React</span>
+                            <span class="mem-bar">[██████░░░░]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-section">
+                    <div class="section-title-bar small">BOOT SEQUENCE</div>
+                    <div class="boot-seq">
+                        <div class="seq-item ok">[OK] Passion loaded</div>
+                        <div class="seq-item ok">[OK] Skills compiled</div>
+                        <div class="seq-item ok">[OK] Projects built</div>
+                        <div class="seq-item ok">[OK] Git initialized</div>
+                        <div class="seq-item warn">[!!] Coffee low</div>
+                        <div class="seq-item ok">[OK] System ready</div>
+                    </div>
+                </div>
+
+                <div class="right-section">
+                    <div class="section-title-bar small">KEY BINDINGS</div>
+                    <div class="key-list">
+                        <div class="key-item"><kbd>1</kbd> Main</div>
+                        <div class="key-item"><kbd>2</kbd> About</div>
+                        <div class="key-item"><kbd>3</kbd> Skills</div>
+                        <div class="key-item"><kbd>4</kbd> Projects</div>
+                        <div class="key-item"><kbd>5</kbd> Contact</div>
+                        <div class="key-item"><kbd>←</kbd><kbd>→</kbd> Navigate</div>
+                    </div>
+                </div>
+
+                <div class="right-section">
+                    <div class="section-title-bar small">DEV NOTICE</div>
+                    <div class="dev-notice-box">
+                        <span class="blink-dot green-dot"></span>
+                        Site in Development.<br>More features loading...
+                    </div>
+                </div>
+            </div><!-- /right-panel -->
+
+        </div><!-- /bios-body -->
+
+        <!-- bottom bar -->
+        <footer class="bios-footer">
+            <div class="footer-left">
+                <span>Designed &amp; Built by Samir Ghimire</span>
+                <span class="footer-sep">|</span>
+                <span>BIOS Theme Portfolio v2.26</span>
+            </div>
+            <div class="footer-right">
+                <span class="key-hint">[F1] Help</span>
+                <span class="key-hint">[F5] Refresh</span>
+                <span class="key-hint">[F10] Save &amp; Exit</span>
+                <span class="key-hint">[ESC] Exit</span>
+            </div>
+        </footer>
+
+    </div><!-- /bios-main -->
+
+    <!-- scanline overlay -->
+    <div class="scanlines"></div>
+
+    <!-- f10 save popup -->
+    <div id="save-popup" class="popup hidden">
+        <div class="popup-box">
+            <div class="popup-title">SAVE CONFIGURATION</div>
+            <div class="popup-msg">Save changes and continue?<br><br>
+                <span class="accent">[ YES ]</span> &nbsp; <span id="popup-no">[ NO ]</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
