@@ -25,7 +25,7 @@ const bootMessages = [
     { text: '[OK] Skills module  loaded', type: 'ok', delay: 60 },
     { text: '[OK] Projects module  loaded', type: 'ok', delay: 60 },
     { text: '[OK] Contact module  loaded', type: 'ok', delay: 60 },
-    { text: '[!!] Coffee level: CRITICALLY LOW', type: 'warn', delay: 970 },
+    { text: '[!!] Coffee level: CRITICALLY LOW', type: 'warn', delay: 270 },
     { text: '', type: 'dim', delay: 30 },
     { text: 'System ready. Entering BIOS Setup Utility...', type: 'info', delay: 80 },
 ];
@@ -173,12 +173,15 @@ function runHudSequence() {
             q(el, 'hud-electric', 36);
         });
 
-        // Menu items — each sub-part individually
-        mainSection.querySelectorAll('.menu-item').forEach(el => {
-            q(el.querySelector('.menu-arrow'), 'hud-arrow', 18);
-            q(el.querySelector('.menu-label'), 'hud-label', 22);
-            q(el.querySelector('.menu-dots'),  'hud-dots',  24);
-            q(el.querySelector('.menu-val'),   'hud-val',   26);
+        // Stat grid — each box constructs itself individually as a whole unit
+        mainSection.querySelectorAll('.stat-box').forEach(box => {
+            q(box, 'hud-statbox', 60);
+        });
+        t += 20;
+
+        // Activity log — each entry draws itself in from left as one unit
+        mainSection.querySelectorAll('.log-entry').forEach(entry => {
+            q(entry, 'hud-logentry', 42);
         });
     }
     t += 40;
@@ -281,7 +284,6 @@ function runHudSequence() {
 // runs once after the HUD sequence finishes
 function initBIOS() {
     initTabs();
-    initMenuItems();
     initTypingEffect();
     fetchGitHubProjects();
     initContactForm();
@@ -392,8 +394,8 @@ const TAB_HUD_CLASSES = ['tab-hud-target','tab-hud-visible',
     't-title','t-titleicon','t-row','t-infokey','t-infoval','t-bio',
     't-flagstatus','t-flagname','t-skillname','t-skillbar','t-skillpct',
     't-grouplabel','t-chip','t-form','t-formlabel','t-forminput',
-    't-btn','t-sep','t-block','t-menu','t-menuarrow','t-menulabel',
-    't-menudots','t-menuval','t-flag','t-skill'];
+    't-btn','t-sep','t-block','t-flag','t-skill',
+    't-statbox','t-logentry','t-projstat'];
 
 // Deeply granular plotter-style construct animation for tab content
 function animateSectionIn(name) {
@@ -433,17 +435,18 @@ function animateSectionIn(name) {
                     if (val) targets.push({ el: val, type: 't-infoval' });
                 });
             }
-            // menu list → each item split into arrow, label, dots, val
-            else if (cl.contains('menu-list')) {
-                el.querySelectorAll('.menu-item').forEach(r => {
-                    const arrow = r.querySelector('.menu-arrow');
-                    const label = r.querySelector('.menu-label');
-                    const dots  = r.querySelector('.menu-dots');
-                    const val   = r.querySelector('.menu-val');
-                    if (arrow) targets.push({ el: arrow, type: 't-menuarrow' });
-                    if (label) targets.push({ el: label, type: 't-menulabel' });
-                    if (dots)  targets.push({ el: dots,  type: 't-menudots' });
-                    if (val)   targets.push({ el: val,   type: 't-menuval' });
+            // about two-col layout and columns — recurse so children animate normally
+            else if (cl.contains('about-two-col') || cl.contains('about-col-bio') || cl.contains('about-col-flags')) {
+                walk(el);
+            }
+            // contact layout and columns — recurse so children animate normally
+            else if (cl.contains('contact-layout') || cl.contains('contact-col-info') || cl.contains('contact-col-form')) {
+                walk(el);
+            }
+            // projects header bar — each proj-stat constructs individually
+            else if (cl.contains('projects-header-bar')) {
+                el.querySelectorAll('.proj-stat').forEach(stat => {
+                    targets.push({ el: stat, type: 't-projstat' });
                 });
             }
             // bio block → each bio-line
@@ -519,6 +522,30 @@ function animateSectionIn(name) {
                     targets.push({ el: btn, type: 't-btn' })
                 );
             }
+            // stat grid → each box constructs itself individually as a whole unit
+            else if (cl.contains('stat-grid')) {
+                el.querySelectorAll('.stat-box').forEach(box => {
+                    targets.push({ el: box, type: 't-statbox' });
+                });
+            }
+            // activity log → each entry draws itself in as a whole unit
+            else if (cl.contains('activity-log')) {
+                el.querySelectorAll('.log-entry').forEach(entry => {
+                    targets.push({ el: entry, type: 't-logentry' });
+                });
+            }
+            // process list → each row constructs as a whole unit
+            else if (cl.contains('process-list')) {
+                el.querySelectorAll('.process-row').forEach(row => {
+                    targets.push({ el: row, type: 't-logentry' });
+                });
+            }
+            // channel list → each row constructs as a whole unit
+            else if (cl.contains('channel-list')) {
+                el.querySelectorAll('.channel-row').forEach(row => {
+                    targets.push({ el: row, type: 't-logentry' });
+                });
+            }
             // fallback generic block
             else {
                 targets.push({ el, type: 't-block' });
@@ -541,13 +568,6 @@ function animateSectionIn(name) {
             t.el.classList.add('tab-hud-visible', t.type);
         }, delay);
         delay += 16;
-    });
-}
-
-// adds click listeners to main menu items
-function initMenuItems() {
-    document.querySelectorAll('.menu-item.selectable').forEach(item => {
-        item.addEventListener('click', () => switchTab(item.dataset.target));
     });
 }
 

@@ -206,6 +206,23 @@ a:hover {
     15%  { opacity: 1; }
     100% { opacity: 1; transform: scaleX(1); }
 }
+/* Stat box — scan line expands from center outward, content revealed as it grows */
+@keyframes constructStatBox {
+    0%   { opacity: 0; clip-path: inset(48% 0 48% 0); }
+    15%  { opacity: 1; clip-path: inset(36% 0 36% 0); }
+    40%  { clip-path: inset(14% 0 14% 0); }
+    70%  { clip-path: inset(3% 0 3% 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+/* Log entry — border draws in from left then content fills right */
+@keyframes constructLogEntry {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    8%   { opacity: 1; clip-path: inset(0 92% 0 0); }
+    30%  { clip-path: inset(0 60% 0 0); }
+    60%  { clip-path: inset(0 25% 0 0); }
+    85%  { clip-path: inset(0 5% 0 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
 /* Clock digits — expand from center */
 @keyframes constructClock {
     0%   { opacity: 0; clip-path: inset(20% 50% 20% 50%); }
@@ -389,6 +406,14 @@ a:hover {
 [data-hud="hud-footspan"].hud-visible {
     animation: typeTrace 0.2s ease forwards;
 }
+/* Stat box — constructs itself from a scan line expanding to full height */
+[data-hud="hud-statbox"].hud-visible {
+    animation: constructStatBox 0.5s ease forwards;
+}
+/* Log entry — draws itself in from left as a single unit */
+[data-hud="hud-logentry"].hud-visible {
+    animation: constructLogEntry 0.38s ease forwards;
+}
 
 /* ── Fast tab-switch construct animations (sketch/draw style) ── */
 
@@ -503,6 +528,18 @@ a:hover {
 /* Form input — draw line then expand */
 .tab-hud-target.tab-hud-visible.t-forminput {
     animation: drawLine 0.2s ease forwards;
+}
+/* Stat box — constructs as a whole unit: scan line expands to full height */
+.tab-hud-target.tab-hud-visible.t-statbox {
+    animation: constructStatBox 0.36s ease forwards;
+}
+/* Log entry — draws itself in from left as a whole unit */
+.tab-hud-target.tab-hud-visible.t-logentry {
+    animation: constructLogEntry 0.28s ease forwards;
+}
+/* Projects header stat — constructs as a whole unit like a stat box */
+.tab-hud-target.tab-hud-visible.t-projstat {
+    animation: constructStatBox 0.34s ease forwards;
 }
 
 /* Overlay grid flash during init */
@@ -830,6 +867,10 @@ a:hover {
     border-right: 1px solid var(--border);
 }
 
+.left-panel:has(#section-main.active) {
+    overflow: hidden;
+}
+
 .right-panel {
     width: 240px;
     flex-shrink: 0;
@@ -847,6 +888,10 @@ a:hover {
 
 .bios-section.active {
     display: block;
+}
+
+#section-main.active {
+    overflow: hidden;
 }
 
 /* ── Section Title Bar ── */
@@ -930,62 +975,340 @@ a:hover {
     margin: 14px 0;
 }
 
-/* ── Menu List ── */
-.menu-list { display: flex; flex-direction: column; gap: 1px; }
+/* ── Main Page — Stat Grid ── */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
 
-.menu-item {
+.stat-box {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 12px 10px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+}
+
+.stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 100%;
+    background: var(--cyan);
+    opacity: 0.5;
+}
+
+.stat-box:hover {
+    border-color: var(--cyan2);
+    background: var(--cyan-dim);
+}
+
+.stat-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.stat-value {
+    font-family: var(--font-bios);
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
-    padding: 5px 8px;
-    font-size: 12px;
+    justify-content: center;
     gap: 6px;
-    border-left: 3px solid transparent;
-    cursor: pointer;
-    transition: all 0.1s;
 }
 
-.menu-item:hover,
-.menu-item.selected {
-    border-left-color: var(--cyan);
+.stat-sub {
+    font-size: 9px;
+    color: var(--dim);
+    letter-spacing: 1px;
+}
+
+/* ── Main Page — Activity Log ── */
+.activity-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 12px;
+    border: 1px solid var(--border2);
+    background: var(--bg2);
+}
+
+.log-entry {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--border2);
+    font-size: 12px;
+    transition: background 0.1s;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-entry:hover {
     background: var(--cyan-dim);
-    color: var(--cyan);
 }
 
-.menu-arrow { color: var(--dim); font-size: 10px; }
-.menu-label { min-width: 180px; }
-.menu-dots  { color: var(--dim); flex: 1; overflow: hidden; font-size: 11px; }
-.menu-val   { color: var(--dim); font-size: 11px; min-width: 130px; text-align: right; }
+.log-ts {
+    color: var(--dim);
+    font-size: 11px;
+    min-width: 54px;
+    flex-shrink: 0;
+}
+
+.log-tag {
+    font-size: 11px;
+    min-width: 66px;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+}
+
+.log-tag.ok   { color: var(--green); }
+.log-tag.warn { color: var(--yellow); }
+.log-tag.err  { color: var(--red); }
+.log-tag.info { color: var(--cyan); }
+
+.log-msg {
+    color: var(--white);
+    opacity: 0.85;
+    font-size: 12px;
+}
+
+/* ── About Two-Column Layout ── */
+.about-two-col {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 0 20px;
+    align-items: start;
+}
+
+/* Larger info rows scoped to about section */
+#section-about .info-key {
+    font-size: 12px;
+    min-width: 140px;
+}
+
+#section-about .info-val {
+    font-size: 13px;
+}
+
+#section-about .info-row {
+    padding: 5px 6px;
+}
+
+.about-col-bio,
+.about-col-flags {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Projects Header Bar ── */
+.projects-header-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    margin-bottom: 12px;
+}
+
+.proj-stat {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border-right: 1px solid var(--border2);
+    position: relative;
+    overflow: hidden;
+}
+
+.proj-stat::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+    opacity: 0.3;
+}
+
+.proj-stat:last-child { border-right: none; }
+
+.proj-stat-label {
+    font-size: 9px;
+    color: var(--dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.proj-stat-val {
+    font-size: 12px;
+    color: var(--white);
+    letter-spacing: 0.5px;
+}
+
+/* ── Contact Two-Column Layout ── */
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 0 20px;
+    align-items: start;
+}
+
+.contact-col-info,
+.contact-col-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-col-info .link-buttons {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-col-info .bios-btn {
+    display: block;
+    text-align: center;
+}
+
+/* ── Contact — scoped larger text ── */
+#section-contact .info-key { font-size: 12px; min-width: 130px; }
+#section-contact .info-val { font-size: 13px; }
+#section-contact .info-row { padding: 5px 6px; }
+#section-contact .form-label { font-size: 12px; min-width: 110px; }
+#section-contact .bios-input { font-size: 13px; }
+
+/* ── Contact — Preferred Channels ── */
+.channel-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border2);
+    background: var(--bg2);
+    margin-bottom: 10px;
+}
+
+.channel-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border2);
+    transition: background 0.1s;
+}
+
+.channel-row:last-child { border-bottom: none; }
+.channel-row:hover { background: var(--cyan-dim); }
+
+.channel-rank {
+    font-family: var(--font-bios);
+    font-size: 18px;
+    color: var(--cyan);
+    min-width: 28px;
+    opacity: 0.7;
+}
+
+.channel-name {
+    flex: 1;
+    color: var(--white);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.channel-note {
+    color: var(--dim);
+    font-size: 11px;
+}
+
+/* ── About — Active Processes ── */
+.process-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border2);
+    background: var(--bg2);
+    margin-bottom: 10px;
+}
+
+.process-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border2);
+    transition: background 0.1s;
+}
+
+.process-row:last-child { border-bottom: none; }
+.process-row:hover { background: var(--cyan-dim); }
+
+.proc-id {
+    color: var(--dim);
+    font-size: 10px;
+    min-width: 58px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.proc-name {
+    flex: 1;
+    color: var(--white);
+    font-size: 13px;
+}
+
+.proc-status {
+    font-size: 10px;
+    padding: 2px 7px;
+    border: 1px solid;
+    letter-spacing: 0.5px;
+    min-width: 72px;
+    text-align: center;
+}
+
+.proc-status.running  { color: var(--green);  border-color: rgba(57,255,20,0.4);  background: rgba(57,255,20,0.06); }
+.proc-status.learning { color: var(--cyan);   border-color: rgba(0,245,196,0.4);  background: var(--cyan-dim); }
+.proc-status.idle     { color: var(--yellow); border-color: rgba(255,215,0,0.4);  background: rgba(255,215,0,0.06); }
 
 /* ── Bio Block ── */
-.bio-block { padding: 4px 0 12px; }
+.bio-block { padding: 4px 0 14px; }
 
 .bio-line {
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    padding: 4px 6px;
-    font-size: 12px;
-    line-height: 1.6;
+    padding: 6px 6px;
+    font-size: 13px;
+    line-height: 1.7;
     color: var(--white);
 }
 
-.prompt { color: var(--cyan); font-size: 13px; flex-shrink: 0; }
+.prompt { color: var(--cyan); font-size: 14px; flex-shrink: 0; }
 
 .cursor { color: var(--cyan); }
 
 /* ── Flags ── */
-.flags-grid { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
+.flags-grid { display: flex; flex-direction: column; gap: 6px; padding: 0 4px; }
 
 .flag-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 3px 6px;
-    font-size: 12px;
+    padding: 5px 6px;
+    font-size: 13px;
 }
 
 .flag-status {
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 1px;
     min-width: 100px;
 }
@@ -1720,6 +2043,18 @@ kbd {
         height: auto;
     }
 
+    /* About two-col — stack on mobile */
+    .about-two-col { grid-template-columns: 1fr; }
+
+    /* Projects header bar — 2 columns */
+    .projects-header-bar { grid-template-columns: repeat(2, 1fr); }
+    .proj-stat:nth-child(2) { border-right: none; }
+
+    /* Contact layout — stack on mobile */
+    .contact-layout { grid-template-columns: 1fr; }
+    .contact-col-info .bios-btn { display: inline-block; text-align: left; }
+    .contact-col-info .link-buttons { flex-direction: row; }
+
     /* Projects */
     .project-entry-header { flex-wrap: wrap; gap: 6px; }
     .project-links { width: 100%; }
@@ -1787,9 +2122,9 @@ kbd {
     .info-key::after { content: ''; }
     .info-val { font-size: 12px; padding-left: 8px; }
 
-    /* Menu */
-    .menu-item { font-size: 11px; }
-    .menu-label { min-width: unset; }
+    /* Projects header bar — single column on phone */
+    .projects-header-bar { grid-template-columns: repeat(2, 1fr); }
+    .proj-stat { border-right: none; }
 
     /* Section titles */
     .section-title-bar {

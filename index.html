@@ -151,32 +151,77 @@
 
                     <div class="section-title-bar">
                         <span class="section-icon">█</span>
-                        QUICK BOOT MENU
+                        DIAGNOSTICS — CORE METRICS
                     </div>
-                    <div class="menu-list">
-                        <div class="menu-item selectable" data-target="about">
-                            <span class="menu-arrow">▶</span>
-                            <span class="menu-label">About Me</span>
-                            <span class="menu-dots">.............................</span>
-                            <span class="menu-val">Personal Profile</span>
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">PROJECTS</div>
+                            <div class="stat-value accent">30+</div>
+                            <div class="stat-sub">Built &amp; Deployed</div>
                         </div>
-                        <div class="menu-item selectable" data-target="skills">
-                            <span class="menu-arrow">▶</span>
-                            <span class="menu-label">Skills &amp; Technologies</span>
-                            <span class="menu-dots">..................</span>
-                            <span class="menu-val">Hardware Specs</span>
+                        <div class="stat-box">
+                            <div class="stat-label">LANGUAGES</div>
+                            <div class="stat-value accent">8+</div>
+                            <div class="stat-sub">Programming Languages</div>
                         </div>
-                        <div class="menu-item selectable" data-target="projects">
-                            <span class="menu-arrow">▶</span>
-                            <span class="menu-label">Projects</span>
-                            <span class="menu-dots">.........................</span>
-                            <span class="menu-val">Installed Programs</span>
+                        <div class="stat-box">
+                            <div class="stat-label">TOOLS</div>
+                            <div class="stat-value accent">12+</div>
+                            <div class="stat-sub">Dev Toolkit</div>
                         </div>
-                        <div class="menu-item selectable" data-target="contact">
-                            <span class="menu-arrow">▶</span>
-                            <span class="menu-label">Contact</span>
-                            <span class="menu-dots">.........................</span>
-                            <span class="menu-val">I/O Configuration</span>
+                        <div class="stat-box">
+                            <div class="stat-label">GITHUB ACCS</div>
+                            <div class="stat-value yellow">3</div>
+                            <div class="stat-sub">Developer Profiles</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">STACK TYPE</div>
+                            <div class="stat-value green">FULL</div>
+                            <div class="stat-sub">Frontend &amp; Backend</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">STATUS</div>
+                            <div class="stat-value green"><span class="blink-dot green-dot"></span> ACTIVE</div>
+                            <div class="stat-sub">Open to Opportunities</div>
+                        </div>
+                    </div>
+
+                    <div class="separator-line"></div>
+
+                    <div class="section-title-bar">
+                        <span class="section-icon">█</span>
+                        ACTIVITY LOG — SYSTEM EVENTS
+                    </div>
+                    <div class="activity-log">
+                        <div class="log-entry">
+                            <span class="log-ts">2026-02</span>
+                            <span class="log-tag ok">[BUILD ]</span>
+                            <span class="log-msg">BIOS Portfolio v2.26 deployed to production</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-ts">2026-01</span>
+                            <span class="log-tag ok">[COMMIT]</span>
+                            <span class="log-msg">Full-stack project milestone reached</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-ts">2025-12</span>
+                            <span class="log-tag info">[LOAD  ]</span>
+                            <span class="log-msg">TypeScript module integrated into stack</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-ts">2025-11</span>
+                            <span class="log-tag warn">[UPDATE]</span>
+                            <span class="log-msg">Backend expanded &mdash; Flask &amp; Supabase added</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-ts">2025-09</span>
+                            <span class="log-tag ok">[INIT  ]</span>
+                            <span class="log-msg">Android development started &mdash; Kotlin</span>
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-ts">2025-06</span>
+                            <span class="log-tag ok">[EXEC  ]</span>
+                            <span class="log-msg">Video editing suite activated &mdash; Premiere Pro</span>
                         </div>
                     </div>
                 </section>
@@ -208,62 +253,98 @@
 
                     <div class="separator-line"></div>
 
-                    <div class="section-title-bar">
-                        <span class="section-icon">█</span>
-                        BIO DUMP
-                    </div>
-                    <div class="bio-block">
-                        <p class="bio-line">
-                            <span class="prompt">&gt;_</span>
-                            Hello! I'm <span class="accent">Samir Ghimire</span>, a student at DSS
-                            who is passionate about Technology.
-                        </p>
-                        <p class="bio-line">
-                            <span class="prompt">&gt;_</span>
-                            I build exceptional digital experiences and love exploring
-                            the intersection of design and engineering.
-                        </p>
-                        <p class="bio-line">
-                            <span class="prompt">&gt;_</span>
-                            I'm also a <span class="accent">video editor</span> — cutting and crafting stories
-                            using <span class="yellow">Adobe Premiere Pro</span>.
-                        </p>
-                        <p class="bio-line">
-                            <span class="prompt">&gt;_</span>
-                            When I'm not coding, you can find me doing <span class="yellow">mostly nothing</span>.
-                        </p>
-                        <p class="bio-line typing-line" id="typing-bio">
-                            <span class="prompt">&gt;_</span>
-                            <span id="typed-text"></span><span class="cursor blink-text">█</span>
-                        </p>
+                    <div class="about-two-col">
+                        <div class="about-col-bio">
+                            <div class="section-title-bar">
+                                <span class="section-icon">█</span>
+                                BIO DUMP
+                            </div>
+                            <div class="bio-block">
+                                <p class="bio-line">
+                                    <span class="prompt">&gt;_</span>
+                                    Hello! I'm <span class="accent">Samir Ghimire</span>, a student at DSS
+                                    who is passionate about Technology.
+                                </p>
+                                <p class="bio-line">
+                                    <span class="prompt">&gt;_</span>
+                                    I build exceptional digital experiences and love exploring
+                                    the intersection of design and engineering.
+                                </p>
+                                <p class="bio-line">
+                                    <span class="prompt">&gt;_</span>
+                                    I'm also a <span class="accent">video editor</span> — cutting and crafting stories
+                                    using <span class="yellow">Adobe Premiere Pro</span>.
+                                </p>
+                                <p class="bio-line">
+                                    <span class="prompt">&gt;_</span>
+                                    When I'm not coding, you can find me doing <span class="yellow">mostly nothing</span>.
+                                </p>
+                                <p class="bio-line typing-line" id="typing-bio">
+                                    <span class="prompt">&gt;_</span>
+                                    <span id="typed-text"></span><span class="cursor blink-text">█</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="about-col-flags">
+                            <div class="section-title-bar">
+                                <span class="section-icon">█</span>
+                                SYSTEM FLAGS
+                            </div>
+                            <div class="flags-grid">
+                                <div class="flag-item enabled">
+                                    <span class="flag-status">[ENABLED ]</span>
+                                    <span class="flag-name">Creative Thinking</span>
+                                </div>
+                                <div class="flag-item enabled">
+                                    <span class="flag-status">[ENABLED ]</span>
+                                    <span class="flag-name">Problem Solving</span>
+                                </div>
+                                <div class="flag-item enabled">
+                                    <span class="flag-status">[ENABLED ]</span>
+                                    <span class="flag-name">Continuous Learning</span>
+                                </div>
+                                <div class="flag-item enabled">
+                                    <span class="flag-status">[ENABLED ]</span>
+                                    <span class="flag-name">Team Collaboration</span>
+                                </div>
+                                <div class="flag-item disabled">
+                                    <span class="flag-status">[DISABLED]</span>
+                                    <span class="flag-name">Procrastination Override</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="separator-line"></div>
-
                     <div class="section-title-bar">
                         <span class="section-icon">█</span>
-                        SYSTEM FLAGS
+                        CURRENTLY RUNNING — ACTIVE PROCESSES
                     </div>
-                    <div class="flags-grid">
-                        <div class="flag-item enabled">
-                            <span class="flag-status">[ENABLED ]</span>
-                            <span class="flag-name">Creative Thinking</span>
+                    <div class="process-list">
+                        <div class="process-row">
+                            <span class="proc-id">PID:001</span>
+                            <span class="proc-name">Full Stack Development</span>
+                            <span class="proc-status running">RUNNING</span>
                         </div>
-                        <div class="flag-item enabled">
-                            <span class="flag-status">[ENABLED ]</span>
-                            <span class="flag-name">Problem Solving</span>
+                        <div class="process-row">
+                            <span class="proc-id">PID:002</span>
+                            <span class="proc-name">Android Dev  (Kotlin)</span>
+                            <span class="proc-status learning">LEARNING</span>
                         </div>
-                        <div class="flag-item enabled">
-                            <span class="flag-status">[ENABLED ]</span>
-                            <span class="flag-name">Continuous Learning</span>
+                        <div class="process-row">
+                            <span class="proc-id">PID:003</span>
+                            <span class="proc-name">DSS Academics</span>
+                            <span class="proc-status running">RUNNING</span>
                         </div>
-                        <div class="flag-item enabled">
-                            <span class="flag-status">[ENABLED ]</span>
-                            <span class="flag-name">Team Collaboration</span>
+                        <div class="process-row">
+                            <span class="proc-id">PID:004</span>
+                            <span class="proc-name">Video Editing</span>
+                            <span class="proc-status idle">ACTIVE</span>
                         </div>
-                        <div class="flag-item disabled">
-                            <span class="flag-status">[DISABLED]</span>
-                            <span class="flag-name">Procrastination Override</span>
+                        <div class="process-row">
+                            <span class="proc-id">PID:005</span>
+                            <span class="proc-name">Open Source Contributions</span>
+                            <span class="proc-status idle">ACTIVE</span>
                         </div>
                     </div>
                 </section>
@@ -451,6 +532,24 @@
                         INSTALLED PROGRAMS — GITHUB REPOSITORY
                         <span class="badge blink-text">LIVE DATA</span>
                     </div>
+                    <div class="projects-header-bar">
+                        <div class="proj-stat">
+                            <span class="proj-stat-label">SOURCE</span>
+                            <span class="proj-stat-val accent">github.com/Mirvo19</span>
+                        </div>
+                        <div class="proj-stat">
+                            <span class="proj-stat-label">DATA MODE</span>
+                            <span class="proj-stat-val green">LIVE FETCH</span>
+                        </div>
+                        <div class="proj-stat">
+                            <span class="proj-stat-label">ACCOUNTS</span>
+                            <span class="proj-stat-val yellow">3 PROFILES</span>
+                        </div>
+                        <div class="proj-stat">
+                            <span class="proj-stat-label">TOTAL</span>
+                            <span class="proj-stat-val accent">30+ REPOS</span>
+                        </div>
+                    </div>
                     <div id="projects-status" class="projects-status">
                         <span class="prompt">&gt;_</span>
                         <span id="projects-status-text">Scanning GitHub repositories...</span>
@@ -467,80 +566,107 @@
 
                 <!-- contact section -->
                 <section class="bios-section" id="section-contact">
-                    <div class="section-title-bar">
-                        <span class="section-icon">█</span>
-                        I/O CONFIGURATION — CONTACT PORTS
-                    </div>
-                    <div class="info-table">
-                        <div class="info-row">
-                            <span class="info-key">EMAIL PORT</span>
-                            <span class="info-val">
-                                <a href="mailto:unonown97@gmail.com" class="bios-link">unonown97@gmail.com</a>
-                                <span class="green"> [OPEN]</span>
-                            </span>
+                    <div class="contact-layout">
+                        <div class="contact-col-info">
+                            <div class="section-title-bar">
+                                <span class="section-icon">█</span>
+                                I/O CONFIGURATION
+                            </div>
+                            <div class="info-table">
+                                <div class="info-row">
+                                    <span class="info-key">EMAIL PORT</span>
+                                    <span class="info-val">
+                                        <a href="mailto:unonown97@gmail.com" class="bios-link">unonown97@gmail.com</a>
+                                        <span class="green"> [OPEN]</span>
+                                    </span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-key">GITHUB PORT</span>
+                                    <span class="info-val">
+                                        <a href="https://github.com/Mirvo19" target="_blank" class="bios-link">github.com/Mirvo19</a>
+                                        <span class="green"> [OPEN]</span>
+                                    </span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-key">RESPONSE</span>
+                                    <span class="info-val green">As soon as possible</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-key">STATUS</span>
+                                    <span class="info-val green">
+                                        <span class="blink-dot green-dot"></span> OPEN
+                                    </span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-key">PREFERRED</span>
+                                    <span class="info-val accent">Email</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-key">TIMEZONE</span>
+                                    <span class="info-val">GMT+5:45 (NPT)</span>
+                                </div>
+                            </div>
+                            <div class="separator-line"></div>
+                            <div class="section-title-bar">
+                                <span class="section-icon">█</span>
+                                SYSTEM LINKS
+                            </div>
+                            <div class="link-buttons">
+                                <a href="https://github.com/Mirvo19" target="_blank" rel="noopener noreferrer" class="bios-btn">
+                                    [ GITHUB PROFILE ]
+                                </a>
+                                <a href="mailto:unonown97@gmail.com" class="bios-btn">
+                                    [ SEND EMAIL ]
+                                </a>
+                            </div>
+                            <div class="separator-line"></div>
+                            <div class="section-title-bar">
+                                <span class="section-icon">█</span>
+                                PREFERRED CHANNELS
+                            </div>
+                            <div class="channel-list">
+                                <div class="channel-row">
+                                    <span class="channel-rank">01</span>
+                                    <span class="channel-name">Email</span>
+                                    <span class="channel-note">Fastest Response</span>
+                                </div>
+                                <div class="channel-row">
+                                    <span class="channel-rank">02</span>
+                                    <span class="channel-name">GitHub</span>
+                                    <span class="channel-note">Code / Collaboration</span>
+                                </div>
+                                <div class="channel-row">
+                                    <span class="channel-rank">03</span>
+                                    <span class="channel-name">Contact Form</span>
+                                    <span class="channel-note">This Page</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="info-row">
-                            <span class="info-key">GITHUB PORT</span>
-                            <span class="info-val">
-                                <a href="https://github.com/Mirvo19" target="_blank" class="bios-link">github.com/Mirvo19</a>
-                                <span class="green"> [OPEN]</span>
-                            </span>
+                        <div class="contact-col-form">
+                            <div class="section-title-bar">
+                                <span class="section-icon">█</span>
+                                SEND MESSAGE — SERIAL TERMINAL
+                            </div>
+                            <form class="bios-form" id="contact-form">
+                                <div class="form-row">
+                                    <label class="form-label">NAME_INPUT:</label>
+                                    <input type="text" class="bios-input" id="form-name" placeholder="Enter your name..." autocomplete="off">
+                                </div>
+                                <div class="form-row">
+                                    <label class="form-label">EMAIL_ADDR:</label>
+                                    <input type="email" class="bios-input" id="form-email" placeholder="Enter your email..." autocomplete="off">
+                                </div>
+                                <div class="form-row">
+                                    <label class="form-label">MESSAGE__:</label>
+                                    <textarea class="bios-input bios-textarea" id="form-message" placeholder="Type your message..." rows="4"></textarea>
+                                </div>
+                                <div class="form-row form-submit-row">
+                                    <button type="submit" class="bios-btn bios-btn-primary">[ TRANSMIT MESSAGE ]</button>
+                                    <button type="reset" class="bios-btn">[ CLEAR BUFFER ]</button>
+                                </div>
+                                <div id="form-status" class="form-status"></div>
+                            </form>
                         </div>
-                        <div class="info-row">
-                            <span class="info-key">RESPONSE TIME</span>
-                            <span class="info-val green">As soon as possible</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-key">AVAILABILITY</span>
-                            <span class="info-val green">
-                                <span class="blink-dot green-dot"></span> OPEN TO OPPORTUNITIES
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="separator-line"></div>
-
-                    <div class="section-title-bar">
-                        <span class="section-icon">█</span>
-                        SEND MESSAGE — SERIAL TERMINAL
-                    </div>
-                    <form class="bios-form" id="contact-form">
-                        <div class="form-row">
-                            <label class="form-label">NAME_INPUT:</label>
-                            <input type="text" class="bios-input" id="form-name" placeholder="Enter your name..." autocomplete="off">
-                        </div>
-                        <div class="form-row">
-                            <label class="form-label">EMAIL_ADDR:</label>
-                            <input type="email" class="bios-input" id="form-email" placeholder="Enter your email..." autocomplete="off">
-                        </div>
-                        <div class="form-row">
-                            <label class="form-label">MESSAGE__:</label>
-                            <textarea class="bios-input bios-textarea" id="form-message" placeholder="Type your message..." rows="4"></textarea>
-                        </div>
-                        <div class="form-row form-submit-row">
-                            <button type="submit" class="bios-btn bios-btn-primary">
-                                [ TRANSMIT MESSAGE ]
-                            </button>
-                            <button type="reset" class="bios-btn">
-                                [ CLEAR BUFFER ]
-                            </button>
-                        </div>
-                        <div id="form-status" class="form-status"></div>
-                    </form>
-
-                    <div class="separator-line"></div>
-
-                    <div class="section-title-bar">
-                        <span class="section-icon">█</span>
-                        SYSTEM LINKS
-                    </div>
-                    <div class="link-buttons">
-                        <a href="https://github.com/Mirvo19" target="_blank" rel="noopener noreferrer" class="bios-btn">
-                            [ GITHUB PROFILE ]
-                        </a>
-                        <a href="mailto:unonown97@gmail.com" class="bios-btn">
-                            [ SEND EMAIL ]
-                        </a>
                     </div>
                 </section>
 
